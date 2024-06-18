@@ -85,7 +85,9 @@ If you're reporting an issue, please include:
 Copyright (c) 2024 Ezio Caffi.
 Apache 2.0 licensed, see [LICENSE.txt](LICENSE.txt) file.
 
+For more information, visit the [repository on Bitbucket].
 
 [Teams]: https://www.microsoft.com/en-us/microsoft-teams/group-chat-software/
 [Teams integration]: https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook
 [envsubst]: https://www.gnu.org/software/gettext/manual/html_node/envsubst-Invocation.html
+[repository on Bitbucket]: https://bitbucket.org/e210/teams-notify
