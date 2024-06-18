@@ -9,7 +9,7 @@ You can configure [Teams integration] for your repository to get notifications o
 Add the following snippet to the script section of your `bitbucket-pipelines.yml` file:
 
 ```yaml
-- pipe: e210/teams-notify:0.0.1
+- pipe: e210/teams-notify:0.1.0
   variables:
     WEBHOOK_URL: '<string>'
     # MESSAGE: '<string>'  # Optional.
@@ -42,7 +42,7 @@ Basic example:
     
 ```yaml
 script:
-  - pipe: e210/teams-notify:0.0.1
+  - pipe: e210/teams-notify:0.1.0
     variables:
       WEBHOOK_URL: $WEBHOOK_URL
       MESSAGE: 'Hello, world!'
@@ -54,7 +54,7 @@ If you want to pass complex string with structure elements, use double quotes
 
 ```yaml
 script:
-  - pipe: e210/teams-notify:0.0.1
+  - pipe: e210/teams-notify:0.1.0
     variables:
       WEBHOOK_URL: $WEBHOOK_URL
       MESSAGE: '"[${ENVIRONMENT_NAME}] build has exited with status $build_status"'
@@ -65,7 +65,7 @@ Use custom payload and modify payload with the [envsubst] program that substitut
 ```yaml
 script:
   - envsubst < "payload.json.template" > "payload.json"
-  - pipe: e210/teams-notify:0.0.1
+  - pipe: e210/teams-notify:0.1.0
     variables:
       WEBHOOK_URL: $WEBHOOK_URL
       PAYLOAD_FILE: payload.json
