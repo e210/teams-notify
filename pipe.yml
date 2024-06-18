@@ -1,0 +1,10 @@
+name: Teams Notify
+image: e210/teams-notify
+description: Send a notification to Teams.
+category: Notifications
+repository: https://bitbucket.org/e210/teams-notify
+maintainer:
+  name: Ezio Caffi
+tags:
+  - notification
+  - teams

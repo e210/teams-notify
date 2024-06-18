@@ -1,0 +1,66 @@
+image:
+  name: python:3.12
+
+
+test: &test
+  parallel:
+    - step:
+        name: Test
+        script:
+          - pip install -r test/requirements.txt
+          - python -m pytest -p no:cacheprovider test/test_unit.py --verbose
+          - flake8
+        services:
+          - docker
+    - step:
+        name: Lint the Dockerfile
+        image: hadolint/hadolint:latest-debian
+        script:
+          - hadolint Dockerfile
+    - step:
+        name: Security Scan
+        script:
+          # Run a security scan for sensitive data.
+          # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
+          - pipe: atlassian/git-secrets-scan:1.5.1
+
+
+release-dev: &release-dev
+  step:
+    name: Release development version
+    trigger: manual
+    script:
+      - pip install semversioner
+      - VERSION=$(semversioner current-version).${BITBUCKET_BUILD_NUMBER}-dev
+      - pipe: atlassian/bitbucket-pipe-release:5.6.1
+        variables:
+          REGISTRY_USERNAME: $REGISTRY_USERNAME
+          REGISTRY_PASSWORD: $REGISTRY_PASSWORD
+          IMAGE: e210/$BITBUCKET_REPO_SLUG
+          GIT_PUSH: 'false'
+          VERSION: ${VERSION}
+    services:
+      - docker
+
+
+push: &push
+  step:
+    name: Push and Tag
+    script:
+      - pipe: atlassian/bitbucket-pipe-release:5.6.1
+        variables:
+          REGISTRY_USERNAME: $REGISTRY_USERNAME
+          REGISTRY_PASSWORD: $REGISTRY_PASSWORD
+          IMAGE: e210/$BITBUCKET_REPO_SLUG
+    services:
+      - docker
+
+
+pipelines:
+  default:
+  - <<: *test
+  - <<: *release-dev
+  branches:
+    master:
+    - <<: *test
+    - <<: *push
